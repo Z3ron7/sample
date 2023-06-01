@@ -3,14 +3,14 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import './style.css';
 
-function ProdUpdate() {
+function InsuredUpdate() {
   const [Name, setName] = useState("");
   const navigate = useNavigate();
   const { id } = useParams();
 
   const handleData = async function() {
     try {
-      const { data } = await axios.get(`http://localhost:3000/api/customer_entry/${id}`);
+      const { data } = await axios.get(`http://localhost:3000/api/customer_insured/${id}`);
       setName(data[0].Name);
     } catch (error) {
       console.log(error);
@@ -29,9 +29,9 @@ function ProdUpdate() {
     };
 
     try {
-      await axios.put(`http://localhost:3000/api/customer_entry/update/${id}`, updateDetails);
+      await axios.put(`http://localhost:3000/api/customer_insured/update/${id}`, updateDetails);
       window.alert("Customer updated successfully");
-      navigate('/CustomerEntry');
+      navigate('/CustomerInsured');
     } catch (error) {
       console.log(error);
     }
@@ -69,4 +69,4 @@ function ProdUpdate() {
   );
 }
 
-export default ProdUpdate;
+export default InsuredUpdate;

@@ -1,66 +1,95 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
-
+import { Route, Routes, Navigate } from "react-router-dom";
 import PageNotFound from "./pages/PageNotFound";
+import CustomerEntry from "./pages/CustomerEntry";
+import CustomerInsured from "./pages/CustomerInsured";
+import Coverage from "./pages/Coverage";
 import Login from "./buttons/Login";
-import About from "./pages/About";
+import Signup from "./buttons/Signup";
 import Home from "./pages/Home";
-import Cart from './pages/Cart';
-import Contact from './pages/Contact';
-import Checkout from './pages/Checkout';
-import Success from './pages/Success';
-import Product from "./pages/Product";
 import Navbar from "./component/Navbar";
-import Products from "./pages/Products";
-import PhotoEditing from "./pages/PhotoEditing";
-import FlashDeals from "./discount/FlashDeals";
-import Carousel from "./pages/carousel";
-import Footer from "./component/footer";
+import Sidebar from "./component/Sidebar";
 import Admin from "./component/Admin";
-import PhotoList from "./component/PhotoList"
-import PhotoUpdate from "./component/PhotoUpdate"
-import ProdList from "./component/ProdList";
+import ProdList from "./pages/ProdList";
+import InsuredList from "./pages/InsuredList";
 import ProdUpdate from "./component/ProdUpdate";
-import LoginAdmin from "./component/AdminLogin"
+import InsuredUpdate from "./component/InsuredUpdate";
+import LoginAdmin from "./component/AdminLogin";
+import Logout from "./buttons/Logout";
 
-
-function App () {
-  return (
-     
+// Layout component with Sidebar and Navbar
+const MainLayout = ({ children }) => (
   <div>
     <Navbar />
-
-
-      <Routes>
-        <Route path="/" element={<Home />}/>
-        <Route path="/products" element={<Products />}/>
-        <Route path="/products/:id" element={<Product />}/>
-        <Route path="photoediting" element={<PhotoEditing />} />
-        <Route path="/cart" element={<Cart />}/>
-        <Route path="/about" element={<About />}/>
-        <Route path="/contact" element={<Contact />}/>
-        <Route path="/checkout" element={<Checkout />}/>
-        <Route path="/success" element={<Success />}/>
-        <Route path="*" element={<PageNotFound />}/>
-        <Route path="/login" element={<Login />} />
-        <Route path="/flashdeals" element={<FlashDeals />} />
-        <Route path="/carousel" element={<Carousel />} />
-        <Route path="/admin" element={<Admin />} />
-        <Route path="/loginadmin" element={<LoginAdmin />} />
-        <Route path="/PhotoList" element={<PhotoList />} />
-        <Route path="/PhotoUpdate" element={<PhotoUpdate />} />
-        <Route path='/PhotoUpdate/:id' element={<PhotoUpdate/>}/>
-        <Route path="/productList" element={<ProdList />} />
-        <Route path="/ProdUpdate" element={<ProdUpdate />} />
-        <Route path='/prodUpdate/:id' element={<ProdUpdate/>}/>
-      </Routes>
-
-      <Footer />
-      
-    
-    
+    <Sidebar />
+    {children}
   </div>
+);
+
+// Layout component without Sidebar and Navbar
+const EmptyLayout = ({ children }) => <div>{children}</div>;
+
+// Custom protected route component
+
+function App() {
+  const isAuthenticated = () => {
+    const token = localStorage.getItem("token");
+    return token !== null;
+  };
+
+  return (
+    <Routes>
+      <Route path="/s" element={<MainLayout><Home /></MainLayout>} />
+      <Route path="/signup" element={<EmptyLayout><Signup /></EmptyLayout>} />
+      <Route path="/" element={<EmptyLayout><Login /></EmptyLayout>} />
+      <Route path="/logout" element={<EmptyLayout><Logout /></EmptyLayout>} />
+      <Route path="/loginadmin" element={<MainLayout><LoginAdmin /></MainLayout>} />
+
+      <Route
+        path="/customerEntry"
+        element={isAuthenticated() ? <MainLayout><CustomerEntry /></MainLayout> : <Navigate to="/customerEntry" replace />}
+      />
+      <Route
+        path="/customerInsured"
+        element={isAuthenticated() ? <MainLayout><CustomerInsured /></MainLayout> : <Navigate to="/" replace />}
+      />
+      <Route
+        path="/coverage"
+        element={isAuthenticated() ? <MainLayout><Coverage /></MainLayout> : <Navigate to="/" replace />}
+      />
+      <Route
+        path="/admin"
+        element={isAuthenticated() ? <MainLayout><Admin /></MainLayout> : <Navigate to="/" replace />}
+      />
+      <Route
+        path="/productList"
+        element={isAuthenticated() ? <MainLayout><ProdList /></MainLayout> : <Navigate to="/" replace />}
+      />
+      <Route
+        path="/insuredList"
+        element={isAuthenticated() ? <MainLayout><InsuredList /></MainLayout> : <Navigate to="/" replace />}
+      />
+      <Route
+        path="/ProdUpdate"
+        element={isAuthenticated() ? <MainLayout><ProdUpdate /></MainLayout> : <Navigate to="/" replace />}
+      />
+      <Route
+        path="/prodUpdate/:id"
+        element={isAuthenticated() ? <MainLayout><ProdUpdate /></MainLayout> : <Navigate to="/" replace />}
+      />
+      <Route
+        path="/InsuredUpdate"
+        element={isAuthenticated() ? <MainLayout><InsuredUpdate /></MainLayout> : <Navigate to="/" replace />}
+      />
+      <Route
+        path="/InsuredUpdate/:id"
+        element={isAuthenticated() ? <MainLayout><InsuredUpdate /></MainLayout> : <Navigate to="/" replace />}
+      />
+
+      <Route path="*" element={<PageNotFound />} />
+    </Routes>
   );
 }
 
 export default App;
+

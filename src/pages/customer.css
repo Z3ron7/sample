@@ -1,6 +1,6 @@
 .btna {
     display: block;
-    width: 25%;
+    width: 20%;
     cursor: pointer;
     border-radius: .5rem;
     margin-top: 1rem;
@@ -33,4 +33,8 @@
     width: 750px;
     margin-left:50%;
     float: right;
+}
+
+.bckgrnd {
+    background-color: rgb(228, 228, 215);
 }

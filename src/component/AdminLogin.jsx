@@ -12,7 +12,7 @@ function loginadmin() {
             <div className='p-5 d-flex flex-column align-items-center mx-auto w-100'>
 
               <h2 className="fw-bold mb-2 text-uppercase">Login</h2>
-              <p className="text-white-50 mb-5">Please enter your login and password!</p>
+              <p className="text-white-50 mb-5">Please enter your username and password!</p>
               <div className="mb-2">
               <input className="lg form-control" label='Email address' id='formControlLg' type='email'/>
               </div>

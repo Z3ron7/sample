@@ -33,7 +33,7 @@ function InsuredUpdate() {
       window.alert("Customer updated successfully");
       navigate('/CustomerInsured');
     } catch (error) {
-      console.log(error);
+      console.log(error); 
     }
   };
 

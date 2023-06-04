@@ -4,9 +4,9 @@ import PageNotFound from "./pages/PageNotFound";
 import CustomerEntry from "./pages/CustomerEntry";
 import CustomerInsured from "./pages/CustomerInsured";
 import Coverage from "./pages/Coverage";
+import Transaction from "./pages/Transaction";
 import Login from "./buttons/Login";
 import Signup from "./buttons/Signup";
-import Home from "./pages/Home";
 import Navbar from "./component/Navbar";
 import Sidebar from "./component/Sidebar";
 import Admin from "./component/Admin";
@@ -21,8 +21,7 @@ import Logout from "./buttons/Logout";
 const MainLayout = ({ children }) => (
   <div>
     <Navbar />
-    <Sidebar />
-    {children}
+    <Sidebar>{children}</Sidebar>
   </div>
 );
 
@@ -39,7 +38,6 @@ function App() {
 
   return (
     <Routes>
-      <Route path="/s" element={<MainLayout><Home /></MainLayout>} />
       <Route path="/signup" element={<EmptyLayout><Signup /></EmptyLayout>} />
       <Route path="/" element={<EmptyLayout><Login /></EmptyLayout>} />
       <Route path="/logout" element={<EmptyLayout><Logout /></EmptyLayout>} />
@@ -56,6 +54,10 @@ function App() {
       <Route
         path="/coverage"
         element={isAuthenticated() ? <MainLayout><Coverage /></MainLayout> : <Navigate to="/" replace />}
+      />
+      <Route
+        path="/transaction"
+        element={isAuthenticated() ? <MainLayout><Transaction /></MainLayout> : <Navigate to="/" replace />}
       />
       <Route
         path="/admin"
@@ -92,4 +94,3 @@ function App() {
 }
 
 export default App;
-

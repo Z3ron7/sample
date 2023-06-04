@@ -5,7 +5,7 @@ import axios from "axios";
 const Signup = () => {
   const [values, setValues] = useState({
     name: '',
-    email: '',
+    username: '',
     password: '',
   });
   const navigate = useNavigate();
@@ -46,16 +46,16 @@ const Signup = () => {
           />
         </div>
         <div className="mb-2">
-          <label htmlFor="email" className="form-label">
-            Email address
+          <label htmlFor="username" className="form-label">
+            Username
           </label>
           <input
-            type="email"
+            type="username"
             className="form-control"
-            id="email"
-            aria-describedby="email"
-            value={values.email}
-            onChange={e => setValues({ ...values, email: e.target.value })}
+            id="username"
+            aria-describedby="username"
+            value={values.username}
+            onChange={e => setValues({ ...values, username: e.target.value })}
             required
           />
         </div>
@@ -79,7 +79,7 @@ const Signup = () => {
       
       <div className="text-center mt-3">
         <p>
-          Already have an account? <Link to="/login">Login</Link>
+          Already have an account? <Link to="/">Login</Link>
         </p>
       </div>
     </div>

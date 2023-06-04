@@ -4,9 +4,10 @@ import axios from "axios";
 
 function Login() {
   const [values, setValues] = useState({
-    email: "",
+    username: "",
     password: "",
   });
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const onHandleLogin = (event) => {
@@ -27,20 +28,25 @@ function Login() {
       });
   };
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <>
-      <form className="mx-auto w-25 mt-5 my-5 border px-3 border-dark border-2 " onSubmit={onHandleLogin}>
+
+      <form className="mx-auto w-25 mt-5 my-5 border px-3 border-dark border-2 " style={{backgroundColor: "rgb(228, 228, 215)"}} onSubmit={onHandleLogin}>
         <div className="mb-2 ">
-          <label htmlFor="exampleInputEmail1" className="form-label">
-            Email address
+          <label htmlFor="exampleInputUsername" className="form-label">
+            Username
           </label>
           <input
-            type="email"
+            type="username"
             className="form-control"
-            id="exampleInputEmail1"
-            placeholder="kayden07@gmail.com"
-            aria-describedby="emailHelp"
-            onChange={(e) => setValues({ ...values, email: e.target.value })}
+            id="exampleInputUsername"
+            placeholder="username"
+            aria-describedby="usernameHelp"
+            onChange={(e) => setValues({ ...values, username: e.target.value })}
             required
           />
         </div>
@@ -48,14 +54,23 @@ function Login() {
           <label htmlFor="exampleInputPassword1" className="form-label">
             Password
           </label>
-          <input
-            type="password"
-            className="form-control"
-            placeholder="password"
-            id="exampleInputPassword1"
-            onChange={(e) => setValues({ ...values, password: e.target.value })}
-            required
-          />
+          <div className="input-group">
+            <input
+              type={showPassword ? "text" : "password"}
+              className="form-control"
+              placeholder="password"
+              id="exampleInputPassword1"
+              onChange={(e) => setValues({ ...values, password: e.target.value })}
+              required
+            />
+            <button
+              type="button"
+              className="btn btn-outline-secondary"
+              onClick={togglePasswordVisibility}
+            >
+              {showPassword ? <i className='fa fa-eye-slash'></i> : <i className='fa fa-eye'></i>}
+            </button>
+          </div>
         </div>
         <button
           type="submit"

@@ -31,14 +31,14 @@ function ProdUpdate() {
     try {
       await axios.put(`http://localhost:3000/api/customer_entry/update/${id}`, updateDetails);
       window.alert("Customer updated successfully");
-      navigate('/CustomerEntry');
+      navigate(-1); // Navigate back to the previous page
     } catch (error) {
       console.log(error);
     }
   };
 
   return (
-    <div className="bg-secondary" style={{ marginLeft: "300px" }}>
+    <div className="bg-secondary" style={{ marginLeft: "450px", marginRight: "160px", backgroundColor: "rgb(228, 228, 215)" }}>
       <div className='product-display justify-content-center align-items-center h-100'>
         <form className="container mt-3 text-light" onSubmit={handleSubmit}>
           <div className="mb-2 input-group-sm w-100">

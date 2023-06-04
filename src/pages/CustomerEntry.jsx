@@ -26,7 +26,6 @@ const CustomerEntry = () => {
       await axios.post("http://localhost:3000/api/customer_entry/add", { Name });
       updateTable(); // Call the updateTable function to update the table
       setName(""); // Clear the input field after adding a customer
-      window.location.reload(); // Refresh the window
     } catch (error) {
       console.log(error);
     }
@@ -62,7 +61,7 @@ const CustomerEntry = () => {
                     onChange={(e) => setName(e.target.value)}
                   />
                 </div>
-                <button className="btna lg mx-2 px-2 text-light" type="submit">
+                <button className="btna lg mx-2 px-2 text-light" style={{width: "90px"}} type="submit">
                   Add +
                 </button>
               </form>

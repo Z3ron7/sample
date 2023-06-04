@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
-import InsuredList from "./InsuredList";
 import "./customer.css";
 import axios from "axios";
+import InsuredList from "./InsuredList";
 
 const CustomerInsured = () => {
   const [Name, setName] = useState("");
@@ -26,7 +26,6 @@ const CustomerInsured = () => {
       await axios.post("http://localhost:3000/api/customer_insured/add", { Name });
       updateTable(); // Call the updateTable function to update the table
       setName(""); // Clear the input field after adding a customer
-      window.location.reload(); // Refresh the window
     } catch (error) {
       console.log(error);
     }
@@ -47,7 +46,7 @@ const CustomerInsured = () => {
             }}
           >
             <div className="p-1 d-flex flex-column align-items-right">
-              <h5 className="fw-bold mb-4 text-uppercase">Insured Customer</h5>
+              <h5 className="fw-bold mb-4 text-uppercase">Customer</h5>
               <form
                 onSubmit={sendCustomer}
                 style={{ borderRadius: "1rem", maxWidth: "800px" }}
@@ -62,7 +61,7 @@ const CustomerInsured = () => {
                     onChange={(e) => setName(e.target.value)}
                   />
                 </div>
-                <button className="btna lg mx-2 px-2 text-light" type="submit">
+                <button className="btna lg mx-2 px-2 text-light" style={{width: "90px"}} type="submit">
                   Add +
                 </button>
               </form>

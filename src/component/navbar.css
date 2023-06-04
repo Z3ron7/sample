@@ -1,0 +1,11 @@
+.nav-link {
+    display: inline-block;
+    color: rgb(31, 29, 31)
+}
+
+.nav-link:hover {
+    color: var(--bs-blue);
+}
+.nav-link.active {
+    color: blue;
+}

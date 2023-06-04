@@ -55,28 +55,29 @@ const Coverage = () => {
 
   const handleSearchSubmit = (event) => {
     event.preventDefault();
-    searchRecords(search);
+    if (activeSection === 'insurance') {
+      searchRecords('customer_entry', search);
+    } else if (activeSection === 'insured') {
+      searchRecords('customer_insured', search);
+    } else {
+      searchRecords('customer_entry', search); // Default to searching in the "customer_entry" table
+    }
   };
-
-  const searchRecords = async (name) => {
+  
+  const searchRecords = async (apiEndpoint, name) => {
     try {
-      const response = await axios.get(`http://localhost:3000/api/customer_entry/search/${name}`);
+      const response = await axios.get(`http://localhost:3000/api/${apiEndpoint}/search/${name}`);
       setSearchResults(response.data);
     } catch (error) {
       console.error(error);
     }
-
-    try {
-      const response = await axios.get(`http://localhost:3000/api/customer_insured/search/${name}`);
-      setSearchResults(response.data);
-    } catch (error) {
-      console.error(error);
-    }
   };
 
-  useEffect(() => {
-    fetchData('customer_entry', setCustomerEntryData);
-  }, []);
+  
+useEffect(() => {
+  setActiveSection('insurance');
+  fetchData('customer_entry', setCustomerEntryData);
+}, []);
 
   const displayData =
     searchResults.length > 0 ? searchResults :
@@ -85,10 +86,11 @@ const Coverage = () => {
     [];
 
   return (
+    <div className="fluid" style={{backgroundColor: "rgb(228, 228, 215)"}}>
     <div className="position-relevant container-md mt-3">
       <div className="d-flex justify-content-center" style={{ marginLeft: '330px', marginRight: '35px' }}>
         <button
-          className={`btn btn-outline-success mx-2 ${activeSection === 'insurance' ? 'active' : ''}`}
+          className={`btn btn-outline-success mx-2 m-3 ${activeSection === 'insurance' ? 'active' : ''}`}
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#collapseInsurance"
@@ -99,7 +101,7 @@ const Coverage = () => {
           Insurance
         </button>
         <button
-          className={`btn btn-outline-success mx-2 ${activeSection === 'insured' ? 'active' : ''}`}
+          className={`btn btn-outline-success mx-2 m-3  ${activeSection === 'insured' ? 'active' : ''}`}
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#collapseInsured"
@@ -109,25 +111,26 @@ const Coverage = () => {
         >
           Insured
         </button>
-        <form className="d-grid gap-2 d-md-flex justify-content-md-end" onSubmit={handleSearchSubmit}>
-          <div className="input-group">
-            <input
-              className="form-control"
-              type="search"
-              placeholder="Search name..."
-              aria-label="Search"
-              value={search}
-              onChange={handleSearchChange}
-            />
-            <button className="btn m-4 btn-outline-success" type="submit">
-              Search
-            </button>
-          </div>
-        </form>
+        <form className="d-grid gap-2 d-flex justify-content-md-end" onSubmit={handleSearchSubmit}>
+  <div className="input-group mb-3">
+    <input
+      className="form-control"
+      type="search"
+      placeholder="Search name..."
+      aria-label="Search"
+      value={search}
+      onChange={handleSearchChange}
+      style={{ width: "300px", marginTop: "15px" }}
+    />
+    <button className="btn btn-outline-success " style={{ width: "100px", marginTop: "15px" }} type="submit">
+      Search
+    </button>
+  </div>
+</form>
       </div>
-      <div className={`collapse ${activeSection === 'insurance' ? 'show' : ''}`} id="collapseInsurance" style={{ marginLeft: '330px', marginRight: '35px' }}>
-        <h3>Customer Entry Table</h3>
-        <table className="table table-light table-striped">
+      <div className={`collapse ${activeSection === 'insurance' ? 'show' : ''}`} id="collapseInsurance" style={{ marginLeft: '270px' }}>
+        <h3>Insurance </h3>
+        <table className="table table-light table-striped table-bordered border-secondary">
           <thead className="table-dark">
             <tr>
               <th scope="row">Customer_Id</th>
@@ -166,9 +169,9 @@ const Coverage = () => {
           </tbody>
         </table>
       </div>
-      <div className={`collapse ${activeSection === 'insured' ? 'show' : ''}`} id="collapseInsured" style={{ marginLeft: '330px', marginRight: '35px' }}>
-        <h3>Customer Insured Table</h3>
-        <table className="table table-light table-striped">
+      <div className={`collapse ${activeSection === 'insured' ? 'show' : ''}`} id="collapseInsured" style={{ marginLeft: '270px' }}>
+        <h3>Insured Customer</h3>
+        <table className="table table-light table-striped table-bordered border-secondary">
           <thead className="table-dark">
             <tr>
               <th scope="row">Customer_Id</th>
@@ -184,20 +187,21 @@ const Coverage = () => {
                 <td>
                   <button
                     type="button"
-                    className="btn btn-primary m-2"
-                    style={{ width: '70px', height: '2rem', alignItems: 'center', justifySelf: 'center' }}
+                    className="btn btn-warning m-2"
+                    style={{ width: '40px', height: '2rem', alignItems: 'center', justifySelf: 'center' }}
                   >
                     <Link to={`/prodUpdate/${row.id}`} className="text-decoration-none text-white justify-content-center">
-                      Update
+                    <i className='text-dark fa fa-edit m-0' data-bs-toggle="tooltip" data-bs-placement="left"></i>
                     </Link>
                   </button>
+                  |
                   <button
                     type="button"
                     onClick={() => handleDelete(row.id, 'customer_insured', setCustomerInsuredData)}
                     className="btn btn-danger m-2"
-                    style={{ width: '70px', height: '2rem', alignItems: 'center' }}
+                    style={{ width: '40px', height: '2rem', alignItems: 'center' }}
                   >
-                    Delete
+                    <i className='fa fa-trash'></i>
                   </button>
                 </td>
               </tr>
@@ -205,6 +209,7 @@ const Coverage = () => {
           </tbody>
         </table>
       </div>
+    </div>
     </div>
   );
 };
